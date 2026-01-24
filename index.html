@@ -7,9 +7,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #ff3b30; /* Electric Red */
+            --primary: #ff3b30; 
             --dark: #0a0a0a;
-            --glass: rgba(20, 20, 20, 0.7);
+            --glass: rgba(20, 20, 20, 0.8);
             --text: #ffffff;
         }
 
@@ -25,7 +25,7 @@
             color: var(--text);
         }
 
-        /* Animated Vibrant Background */
+        /* Animated Background */
         .bg-gradient {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -43,65 +43,81 @@
 
         .hero { text-align: center; z-index: 1; pointer-events: none; }
         .hero h1 { 
-            font-size: 6rem; 
-            letter-spacing: -5px; 
+            font-size: 5rem; 
+            letter-spacing: -4px; 
             font-weight: 800; 
             background: linear-gradient(to bottom, #fff 30%, #555);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        .hero p { color: var(--primary); font-weight: 600; letter-spacing: 2px; text-transform: uppercase; font-size: 0.9rem; margin-top: 10px; }
+        .hero p { color: var(--primary); font-weight: 600; letter-spacing: 2px; text-transform: uppercase; font-size: 0.8rem; margin-top: 10px; }
 
         /* Floating Chat UI */
         #chat-trigger {
-            position: fixed; bottom: 40px; right: 40px; width: 80px; height: 80px;
-            background: var(--primary); border-radius: 30px; cursor: pointer;
+            position: fixed; bottom: 30px; right: 30px; width: 70px; height: 70px;
+            background: var(--primary); border-radius: 25px; cursor: pointer;
             display: flex; align-items: center; justify-content: center; 
             box-shadow: 0 0 30px rgba(255, 59, 48, 0.4);
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             z-index: 1000;
         }
-        #chat-trigger:hover { transform: scale(1.1) rotate(-5deg); box-shadow: 0 0 50px rgba(255, 59, 48, 0.6); }
+        #chat-trigger:hover { transform: scale(1.1) rotate(-5deg); }
 
         #chat-window {
-            position: fixed; bottom: 130px; right: 40px; width: 420px; height: 650px;
-            background: var(--glass); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
-            border-radius: 35px; border: 1px solid rgba(255, 255, 255, 0.1);
-            display: none; flex-direction: column; overflow: hidden;
+            position: fixed; 
+            bottom: 115px; /* Spacing from the trigger button */
+            right: 30px; 
+            width: 400px; 
+            height: 580px; /* Optimized height */
+            max-height: 80vh; /* Safety guard: stays within screen */
+            background: var(--glass); 
+            backdrop-filter: blur(30px); 
+            -webkit-backdrop-filter: blur(30px);
+            border-radius: 30px; 
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: none; 
+            flex-direction: column; 
+            overflow: hidden;
             box-shadow: 0 25px 80px rgba(0,0,0,0.5);
             z-index: 1000;
+            animation: slideUp 0.4s ease-out;
         }
 
         .chat-header { 
-            padding: 30px; background: rgba(255, 255, 255, 0.05); 
+            padding: 20px 25px; 
+            background: rgba(255, 255, 255, 0.05); 
             display: flex; justify-content: space-between; align-items: center;
             border-bottom: 1px solid rgba(255,255,255,0.05);
         }
-        .status { display: flex; align-items: center; gap: 10px; font-size: 0.75rem; font-weight: 800; color: var(--primary); }
-        .dot { width: 10px; height: 10px; background: var(--primary); border-radius: 50%; box-shadow: 0 0 15px var(--primary); animation: blink 1.5s infinite; }
+        .status { display: flex; align-items: center; gap: 8px; font-size: 0.7rem; font-weight: 800; color: var(--primary); }
+        .dot { width: 8px; height: 8px; background: var(--primary); border-radius: 50%; box-shadow: 0 0 10px var(--primary); animation: blink 1.5s infinite; }
 
         @keyframes blink { 50% { opacity: 0.4; } }
 
-        #chat-content { flex: 1; padding: 25px; overflow-y: auto; display: flex; flex-direction: column; gap: 20px; }
-        .msg { padding: 16px 20px; border-radius: 22px; font-size: 0.95rem; line-height: 1.6; max-width: 85%; }
-        .bot { background: rgba(255,255,255,0.08); color: #ddd; align-self: flex-start; border-bottom-left-radius: 5px; }
-        .user { background: var(--primary); color: white; align-self: flex-end; border-bottom-right-radius: 5px; font-weight: 500; }
+        #chat-content { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; }
+        .msg { padding: 14px 18px; border-radius: 20px; font-size: 0.9rem; line-height: 1.5; max-width: 85%; }
+        .bot { background: rgba(255,255,255,0.08); color: #efefef; align-self: flex-start; border-bottom-left-radius: 4px; }
+        .user { background: var(--primary); color: white; align-self: flex-end; border-bottom-right-radius: 4px; }
 
-        .chat-input { padding: 25px; background: rgba(0,0,0,0.2); display: flex; gap: 15px; }
+        .chat-input { padding: 20px; background: rgba(0,0,0,0.3); display: flex; gap: 12px; }
         input { 
-            flex: 1; border: 1px solid rgba(255,255,255,0.1); padding: 18px; 
-            background: rgba(255,255,255,0.05); border-radius: 20px; outline: none; color: white;
-            font-size: 1rem;
+            flex: 1; border: 1px solid rgba(255,255,255,0.1); padding: 15px; 
+            background: rgba(255,255,255,0.05); border-radius: 15px; outline: none; color: white;
+            font-size: 0.9rem;
         }
-        input::placeholder { color: #666; }
         
         #send-btn { 
-            background: var(--text); color: var(--dark); border: none; padding: 0 25px; 
-            border-radius: 20px; cursor: pointer; font-weight: 800; font-size: 0.8rem;
+            background: var(--text); color: var(--dark); border: none; padding: 0 20px; 
+            border-radius: 15px; cursor: pointer; font-weight: 800; font-size: 0.75rem;
         }
-        #send-btn:hover { background: var(--primary); color: white; }
 
-        .loader { font-size: 0.8rem; color: var(--primary); display: none; margin-left: 25px; margin-bottom: 10px; font-weight: 600; }
+        .loader { font-size: 0.75rem; color: var(--primary); display: none; margin: 0 0 10px 25px; font-weight: 600; font-style: italic; }
+
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Scrollbar Styling */
+        #chat-content::-webkit-scrollbar { width: 4px; }
+        #chat-content::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
     </style>
 </head>
 <body>
@@ -110,20 +126,20 @@
 
     <div class="hero">
         <h1>Figmenta.</h1>
-        <p>Intelligent Agency Automation // Fig1</p>
+        <p>Innovation Lab // Intelligent Automation</p>
     </div>
 
     <div id="chat-trigger" onclick="toggleChat()">
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
     </div>
 
     <div id="chat-window">
         <div class="chat-header">
-            <span style="font-weight: 800; letter-spacing: 2px; font-size: 0.9rem;">FIG1 CORE</span>
-            <div class="status"><div class="dot"></div> ENCRYPTED CONNECTION</div>
+            <span style="font-weight: 800; letter-spacing: 1.5px; font-size: 0.8rem;">FIG1 CORE ENGINE</span>
+            <div class="status"><div class="dot"></div> LIVE NODE</div>
         </div>
         <div id="chat-content">
-            <div class="msg bot">System Initialized. I am <b>Fig1</b>. Accessing Figmenta Knowledge Base... How may I assist your brand today?</div>
+            <div class="msg bot">System Initialized. I am <b>Fig1</b>. How can I assist your brand today?</div>
         </div>
         <div id="loader" class="loader">FIG1 IS ANALYZING...</div>
         <div class="chat-input">
@@ -134,7 +150,7 @@
 
     <script>
         const WEBHOOK_URL = "https://muneebkhan6.app.n8n.cloud/webhook/213f3e48-d88c-4674-91bf-4eb1e6cf28d2";
-        const session_id = "fig_vibrant_" + Math.random().toString(36).substr(2, 9);
+        const session_id = "fig_" + Math.random().toString(36).substr(2, 9);
 
         function toggleChat() {
             const win = document.getElementById('chat-window');
@@ -167,7 +183,7 @@
                 content.scrollTop = content.scrollHeight;
             } catch (e) {
                 loader.style.display = 'none';
-                content.innerHTML += `<div class="msg bot">Connection Error. Verify n8n workflow activity.</div>`;
+                content.innerHTML += `<div class="msg bot">Node Connection Error. Ensure n8n is ACTIVE.</div>`;
             }
         }
 
