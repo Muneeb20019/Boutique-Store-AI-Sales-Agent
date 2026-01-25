@@ -136,7 +136,7 @@
 
     <div id="chat-window">
         <div class="chat-header">
-            <span style="font-weight: 800; letter-spacing: 1.5px; font-size: 0.8rem; color: #fff;">ASSISTANT</span>
+            <span style="font-weight: 800; letter-spacing: 1.5px; font-size: 0.8rem; color: #fff;">CONCIERGE</span>
             <div class="status"><div class="dot"></div> Online</div>
         </div>
         <div id="chat-content">
@@ -150,18 +150,19 @@
     </div>
 
     <script>
-        // --- PRODUCTION URLs ---
+        // URLs
         const CHAT_URL = "https://muneebkhan6.app.n8n.cloud/webhook/213f3e48-d88c-4674-91bf-4eb1e6cf28d2";
         const POLL_URL = "https://muneebkhan6.app.n8n.cloud/webhook/020fa3d1-d00d-4563-9eac-de788fd3cf77";
         
-        const session_id = "fig_muneeb_" + Math.random().toString(36).substr(2, 9);
+        const session_id = "fig_user_" + Math.random().toString(36).substr(2, 9);
+        let lastMessageId = null; // SMART TRACKER to prevent duplicate messages
 
         function toggleChat() {
             const win = document.getElementById('chat-window');
             win.style.display = (win.style.display === 'flex') ? 'none' : 'flex';
         }
 
-        // --- SEND MESSAGE LOGIC ---
+        // --- PART 1: SEND MESSAGE (Customer to AI/Discord) ---
         async function send() {
             const input = document.getElementById('user-input');
             const content = document.getElementById('chat-content');
@@ -193,11 +194,11 @@
 
             } catch (e) {
                 loader.style.display = 'none';
-                content.innerHTML += `<div class="msg bot">Connecting to server... Ensure n8n is ACTIVE.</div>`;
+                content.innerHTML += `<div class="msg bot">Connecting to server... Please ensure the automation is Active.</div>`;
             }
         }
 
-        // --- DISCORD POLLING LOGIC ---
+        // --- PART 2: SMART LISTEN (Discord to Customer) ---
         async function listenForStaff() {
             try {
                 const res = await fetch(POLL_URL, {
@@ -207,8 +208,10 @@
                 });
                 const data = await res.json();
                 
-                // If n8n finds a staff reply in Supabase, show it!
-                if (data.output) {
+                // ONLY show if it's a new unique message ID
+                if (data.output && data.message_id !== lastMessageId) {
+                    lastMessageId = data.message_id; // Record the ID so we don't show it again
+                    
                     const content = document.getElementById('chat-content');
                     content.innerHTML += `
                         <div class="msg bot" style="border-left: 4px solid #6366f1; background: rgba(99, 102, 241, 0.1);">
@@ -217,10 +220,12 @@
                         </div>`;
                     content.scrollTop = content.scrollHeight;
                 }
-            } catch (e) { /* Polling silently */ }
+            } catch (e) {
+                // Polling silently...
+            }
         }
 
-        // Check for new staff messages every 5 seconds
+        // Check for new Discord messages every 5 seconds
         setInterval(listenForStaff, 5000);
 
         document.getElementById('send-btn').addEventListener('click', send);
