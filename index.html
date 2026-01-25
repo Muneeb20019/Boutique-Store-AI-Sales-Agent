@@ -12,223 +12,198 @@
             --dark-bg: #000000;
             --glass: rgba(15, 15, 15, 0.85);
         }
+code
+Code
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+    body {
+        background-color: var(--dark-bg);
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        color: white;
+    }
 
-        body {
-            background-color: var(--dark-bg);
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            color: white;
-        }
+    .swirl-bg {
+        position: absolute;
+        top: 50%; left: 50%;
+        transform: translate(-50%, -50%);
+        width: 600px; height: 600px;
+        background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%);
+        filter: blur(120px);
+        opacity: 0.35;
+        z-index: 0;
+        animation: moveSwirl 12s infinite alternate;
+    }
 
-        .swirl-bg {
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            width: 600px; height: 600px;
-            background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%);
-            filter: blur(120px);
-            opacity: 0.35;
-            z-index: 0;
-            animation: moveSwirl 12s infinite alternate;
-        }
+    @keyframes moveSwirl {
+        from { transform: translate(-55%, -45%) scale(1); }
+        to { transform: translate(-45%, -55%) scale(1.1); }
+    }
 
-        @keyframes moveSwirl {
-            from { transform: translate(-55%, -45%) scale(1); }
-            to { transform: translate(-45%, -55%) scale(1.1); }
-        }
+    .hero { 
+        text-align: center; 
+        z-index: 1; 
+        max-width: 900px; 
+        padding: 0 40px;
+        animation: fadeIn 1.5s ease-out;
+    }
+    .hero h1 { 
+        font-size: 3.8rem; 
+        font-weight: 800; 
+        line-height: 1.1;
+        letter-spacing: -2px;
+        margin-bottom: 25px;
+    }
+    .hero p { 
+        color: #999; 
+        font-size: 1rem; 
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        font-weight: 700;
+    }
 
-        .hero { 
-            text-align: center; 
-            z-index: 1; 
-            max-width: 900px; 
-            padding: 0 40px;
-            animation: fadeIn 1.5s ease-out;
-        }
-        .hero h1 { 
-            font-size: 3.5rem; 
-            font-weight: 800; 
-            line-height: 1.1;
-            letter-spacing: -2px;
-            margin-bottom: 25px;
-        }
-        .hero p { 
-            color: #999; 
-            font-size: 1rem; 
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            font-weight: 700;
-        }
+    #chat-trigger {
+        position: fixed; bottom: 40px; right: 40px; width: 75px; height: 75px;
+        background: white; border-radius: 26px; cursor: pointer;
+        display: flex; align-items: center; justify-content: center; 
+        box-shadow: 0 15px 45px rgba(99, 102, 241, 0.2);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        z-index: 1000;
+    }
+    #chat-trigger:hover { transform: scale(1.1); background: #fdfdfd; }
+    #chat-trigger svg { stroke: black; stroke-width: 2; fill: none; }
 
-        #chat-trigger {
-            position: fixed; bottom: 40px; right: 40px; width: 75px; height: 75px;
-            background: white; border-radius: 26px; cursor: pointer;
-            display: flex; align-items: center; justify-content: center; 
-            box-shadow: 0 15px 45px rgba(99, 102, 241, 0.2);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            z-index: 1000;
-        }
-        #chat-trigger:hover { transform: scale(1.1); background: #fdfdfd; }
-        #chat-trigger svg { stroke: black; stroke-width: 2; fill: none; }
+    #chat-window {
+        position: fixed; bottom: 130px; right: 40px; width: 410px; height: 580px;
+        max-height: 78vh;
+        background: var(--glass); backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px);
+        border-radius: 35px; border: 1px solid rgba(255, 255, 255, 0.08);
+        display: none; flex-direction: column; overflow: hidden;
+        box-shadow: 0 30px 100px rgba(0,0,0,0.9);
+        z-index: 1000;
+        animation: slideUp 0.5s ease-out;
+    }
 
-        #chat-window {
-            position: fixed; bottom: 130px; right: 40px; width: 410px; height: 580px;
-            max-height: 78vh;
-            background: var(--glass); backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px);
-            border-radius: 35px; border: 1px solid rgba(255, 255, 255, 0.08);
-            display: none; flex-direction: column; overflow: hidden;
-            box-shadow: 0 30px 100px rgba(0,0,0,0.9);
-            z-index: 1000;
-            animation: slideUp 0.5s ease-out;
-        }
+    .chat-header { 
+        padding: 25px 30px; background: rgba(255, 255, 255, 0.02); 
+        display: flex; justify-content: space-between; align-items: center;
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .status { display: flex; align-items: center; gap: 8px; font-size: 0.7rem; font-weight: 800; color: #34c759; text-transform: uppercase; }
+    .dot { width: 8px; height: 8px; background: #34c759; border-radius: 50%; box-shadow: 0 0 10px #34c759; }
 
-        .chat-header { 
-            padding: 25px 30px; background: rgba(255, 255, 255, 0.02); 
-            display: flex; justify-content: space-between; align-items: center;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-        .status { display: flex; align-items: center; gap: 8px; font-size: 0.7rem; font-weight: 800; color: #34c759; text-transform: uppercase; }
-        .dot { width: 8px; height: 8px; background: #34c759; border-radius: 50%; box-shadow: 0 0 10px #34c759; }
+    #chat-content { flex: 1; padding: 25px; overflow-y: auto; display: flex; flex-direction: column; gap: 18px; }
+    .msg { padding: 16px 22px; border-radius: 24px; font-size: 0.95rem; line-height: 1.5; max-width: 88%; }
+    .bot { background: rgba(255,255,255,0.08); color: #e0e0e0; align-self: flex-start; border-bottom-left-radius: 4px; }
+    .user { background: white; color: black; align-self: flex-end; border-bottom-right-radius: 4px; font-weight: 600; }
 
-        #chat-content { flex: 1; padding: 25px; overflow-y: auto; display: flex; flex-direction: column; gap: 18px; }
-        .msg { padding: 16px 22px; border-radius: 24px; font-size: 0.95rem; line-height: 1.5; max-width: 88%; }
-        .bot { background: rgba(255,255,255,0.08); color: #e0e0e0; align-self: flex-start; border-bottom-left-radius: 4px; }
-        .user { background: white; color: black; align-self: flex-end; border-bottom-right-radius: 4px; font-weight: 600; }
+    .chat-input { padding: 25px; background: rgba(255,255,255,0.01); display: flex; gap: 12px; }
+    input { 
+        flex: 1; border: 1px solid rgba(255,255,255,0.1); padding: 16px; 
+        background: rgba(255,255,255,0.04); border-radius: 20px; outline: none; color: white;
+        font-size: 0.95rem;
+    }
+    
+    #send-btn { 
+        background: white; color: black; border: none; padding: 0 25px; 
+        border-radius: 20px; cursor: pointer; font-weight: 800; text-transform: uppercase; font-size: 0.75rem;
+    }
+    #send-btn:hover { background: var(--primary-glow); color: white; }
 
-        .chat-input { padding: 25px; background: rgba(255,255,255,0.01); display: flex; gap: 12px; }
-        input { 
-            flex: 1; border: 1px solid rgba(255,255,255,0.1); padding: 16px; 
-            background: rgba(255,255,255,0.04); border-radius: 20px; outline: none; color: white;
-            font-size: 0.95rem;
-        }
-        
-        #send-btn { 
-            background: white; color: black; border: none; padding: 0 25px; 
-            border-radius: 20px; cursor: pointer; font-weight: 800; text-transform: uppercase; font-size: 0.75rem;
-        }
-        #send-btn:hover { background: var(--primary-glow); color: white; }
+    .loader { font-size: 0.7rem; color: #666; display: none; margin: 0 0 10px 30px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
 
-        .loader { font-size: 0.7rem; color: #666; display: none; margin: 0 0 10px 30px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
 
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-
-        #chat-content::-webkit-scrollbar { width: 2px; }
-        #chat-content::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); }
-    </style>
+    #chat-content::-webkit-scrollbar { width: 2px; }
+    #chat-content::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); }
+</style>
 </head>
 <body>
+code
+Code
+<div class="swirl-bg"></div>
 
-    <div class="swirl-bg"></div>
+<div class="hero">
+    <h1>Figmenta is an independent boutique agency rooted in Italy, powered in UK and globally.</h1>
+    <p>Digital Excellence // Client Concierge</p>
+</div>
 
-    <div class="hero">
-        <h1>Figmenta is an independent boutique agency rooted in Italy, powered in UK and globally.</h1>
-        <p>Digital Excellence // Client Concierge</p>
+<div id="chat-trigger" onclick="toggleChat()">
+    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+</div>
+
+<div id="chat-window">
+    <div class="chat-header">
+        <span style="font-weight: 800; letter-spacing: 1.5px; font-size: 0.8rem; color: #fff;">ASSISTANT</span>
+        <div class="status"><div class="dot"></div> Online</div>
     </div>
-
-    <div id="chat-trigger" onclick="toggleChat()">
-        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+    <div id="chat-content">
+        <div class="msg bot">Hi there! It’s great to meet you. I’m here to help you learn more about Figmenta and how we can bring your vision to life. What can I assist you with today?</div>
     </div>
-
-    <div id="chat-window">
-        <div class="chat-header">
-            <span style="font-weight: 800; letter-spacing: 1.5px; font-size: 0.8rem; color: #fff;">ASSISTANT</span>
-            <div class="status"><div class="dot"></div> Online</div>
-        </div>
-        <div id="chat-content">
-            <div class="msg bot">Hi there! It’s great to meet you. I’m here to help you learn more about Figmenta and how we can bring your vision to life. What can I assist you with today?</div>
-        </div>
-        <div id="loader" class="loader">Writing a response...</div>
-        <div class="chat-input">
-            <input type="text" id="user-input" placeholder="How can we help?">
-            <button id="send-btn">Send</button>
-        </div>
+    <div id="loader" class="loader">Writing a response...</div>
+    <div class="chat-input">
+        <input type="text" id="user-input" placeholder="How can we help?">
+        <button id="send-btn">Send</button>
     </div>
+</div>
 
-    <script>
-        // --- URLs ---
-        const CHAT_URL = "https://muneebkhan6.app.n8n.cloud/webhook/213f3e48-d88c-4674-91bf-4eb1e6cf28d2";
-        const POLL_URL = "https://muneebkhan6.app.n8n.cloud/webhook/97851f12-7a7c-4e3f-a19d-66865ec05172";
+<script>
+    const WEBHOOK_URL = "https://muneebkhan6.app.n8n.cloud/webhook/213f3e48-d88c-4674-91bf-4eb1e6cf28d2";
+    const session_id = "fig_user_" + Math.random().toString(36).substr(2, 9);
+
+    function toggleChat() {
+        const win = document.getElementById('chat-window');
+        win.style.display = (win.style.display === 'flex') ? 'none' : 'flex';
+    }
+
+    async function send() {
+        const input = document.getElementById('user-input');
+        const content = document.getElementById('chat-content');
+        const loader = document.getElementById('loader');
+        const text = input.value.trim();
         
-        const session_id = "fig_user_" + Math.random().toString(36).substr(2, 9);
+        if(!text) return;
 
-        function toggleChat() {
-            const win = document.getElementById('chat-window');
-            win.style.display = (win.style.display === 'flex') ? 'none' : 'flex';
-        }
+        content.innerHTML += `<div class="msg user">${text}</div>`;
+        input.value = '';
+        content.scrollTop = content.scrollHeight;
+        loader.style.display = 'block';
 
-        // --- PART 1: SEND MESSAGE (User to AI) ---
-        async function send() {
-            const input = document.getElementById('user-input');
-            const content = document.getElementById('chat-content');
-            const loader = document.getElementById('loader');
-            const text = input.value.trim();
+        try {
+            const res = await fetch(WEBHOOK_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ session_id, message: text })
+            });
+
+            if (!res.ok) throw new Error('Network response was not ok');
+
+            const data = await res.json();
+            loader.style.display = 'none';
             
-            if(!text) return;
-
-            content.innerHTML += `<div class="msg user">${text}</div>`;
-            input.value = '';
+            if (data.output) {
+                const botMsg = data.output.replace(/\n/g, '<br>');
+                content.innerHTML += `<div class="msg bot">${botMsg}</div>`;
+            } else {
+                content.innerHTML += `<div class="msg bot">I've received that, but I'm still processing the best way to help. Could you tell me a bit more?</div>`;
+            }
             content.scrollTop = content.scrollHeight;
-            loader.style.display = 'block';
 
-            try {
-                const res = await fetch(CHAT_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ session_id, message: text })
-                });
-
-                const data = await res.json();
-                loader.style.display = 'none';
-                
-                if (data.output) {
-                    const botMsg = data.output.replace(/\n/g, '<br>');
-                    content.innerHTML += `<div class="msg bot">${botMsg}</div>`;
-                }
-                content.scrollTop = content.scrollHeight;
-
-            } catch (e) {
-                loader.style.display = 'none';
-                content.innerHTML += `<div class="msg bot">Connecting to server... Please ensure automation is Active.</div>`;
-            }
+        } catch (e) {
+            loader.style.display = 'none';
+            console.error('Fetch error:', e);
+            content.innerHTML += `<div class="msg bot">I'm having a little trouble connecting right now. Please ensure the automation is Active.</div>`;
         }
+    }
 
-        // --- PART 2: LISTEN FOR STAFF (Discord to User) ---
-        async function listenForStaff() {
-            try {
-                const res = await fetch(POLL_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ session_id })
-                });
-                const data = await res.json();
-                
-                // If a human message is found in the Supabase 'staff_replies' table, show it!
-                if (data.output) {
-                    const content = document.getElementById('chat-content');
-                    content.innerHTML += `
-                        <div class="msg bot" style="border-left: 4px solid #6366f1; background: rgba(99, 102, 241, 0.1);">
-                            <small style="color: #6366f1; font-weight: 800; font-size: 0.6rem;">STAFF REPLY</small><br>
-                            ${data.output}
-                        </div>`;
-                    content.scrollTop = content.scrollHeight;
-                }
-            } catch (e) {
-                // Polling silently
-            }
-        }
-
-        // Check for new Discord messages every 4 seconds
-        setInterval(listenForStaff, 4000);
-
-        document.getElementById('send-btn').addEventListener('click', send);
-        document.getElementById('user-input').addEventListener('keypress', (e) => { 
-            if(e.key === 'Enter') send(); 
-        });
-    </script>
+    document.getElementById('send-btn').addEventListener('click', send);
+    document.getElementById('user-input').addEventListener('keypress', (e) => { 
+        if(e.key === 'Enter') send(); 
+    });
+</script>
 </body>
 </html>
