@@ -50,7 +50,7 @@
             animation: fadeIn 1.5s ease-out;
         }
         .hero h1 { 
-            font-size: 3.8rem; 
+            font-size: 3.5rem; 
             font-weight: 800; 
             line-height: 1.1;
             letter-spacing: -2px;
@@ -150,7 +150,10 @@
     </div>
 
     <script>
-        const WEBHOOK_URL = "https://muneebkhan6.app.n8n.cloud/webhook/213f3e48-d88c-4674-91bf-4eb1e6cf28d2";
+        // --- URLs ---
+        const CHAT_URL = "https://muneebkhan6.app.n8n.cloud/webhook/213f3e48-d88c-4674-91bf-4eb1e6cf28d2";
+        const POLL_URL = "https://muneebkhan6.app.n8n.cloud/webhook/97851f12-7a7c-4e3f-a19d-66865ec05172";
+        
         const session_id = "fig_user_" + Math.random().toString(36).substr(2, 9);
 
         function toggleChat() {
@@ -158,6 +161,7 @@
             win.style.display = (win.style.display === 'flex') ? 'none' : 'flex';
         }
 
+        // --- PART 1: SEND MESSAGE (User to AI) ---
         async function send() {
             const input = document.getElementById('user-input');
             const content = document.getElementById('chat-content');
@@ -172,13 +176,11 @@
             loader.style.display = 'block';
 
             try {
-                const res = await fetch(WEBHOOK_URL, {
+                const res = await fetch(CHAT_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ session_id, message: text })
                 });
-
-                if (!res.ok) throw new Error('Network response was not ok');
 
                 const data = await res.json();
                 loader.style.display = 'none';
@@ -186,17 +188,42 @@
                 if (data.output) {
                     const botMsg = data.output.replace(/\n/g, '<br>');
                     content.innerHTML += `<div class="msg bot">${botMsg}</div>`;
-                } else {
-                    content.innerHTML += `<div class="msg bot">I've received that, but I'm still processing the best way to help. Could you tell me a bit more?</div>`;
                 }
                 content.scrollTop = content.scrollHeight;
 
             } catch (e) {
                 loader.style.display = 'none';
-                console.error('Fetch error:', e);
-                content.innerHTML += `<div class="msg bot">I'm having a little trouble connecting right now. Please ensure the automation is Active.</div>`;
+                content.innerHTML += `<div class="msg bot">Connecting to server... Please ensure automation is Active.</div>`;
             }
         }
+
+        // --- PART 2: LISTEN FOR STAFF (Discord to User) ---
+        async function listenForStaff() {
+            try {
+                const res = await fetch(POLL_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ session_id })
+                });
+                const data = await res.json();
+                
+                // If a human message is found in the Supabase 'staff_replies' table, show it!
+                if (data.output) {
+                    const content = document.getElementById('chat-content');
+                    content.innerHTML += `
+                        <div class="msg bot" style="border-left: 4px solid #6366f1; background: rgba(99, 102, 241, 0.1);">
+                            <small style="color: #6366f1; font-weight: 800; font-size: 0.6rem;">STAFF REPLY</small><br>
+                            ${data.output}
+                        </div>`;
+                    content.scrollTop = content.scrollHeight;
+                }
+            } catch (e) {
+                // Polling silently
+            }
+        }
+
+        // Check for new Discord messages every 4 seconds
+        setInterval(listenForStaff, 4000);
 
         document.getElementById('send-btn').addEventListener('click', send);
         document.getElementById('user-input').addEventListener('keypress', (e) => { 
