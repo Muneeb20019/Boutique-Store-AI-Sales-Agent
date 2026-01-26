@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Figmenta | Boutique Digital Agency</title>
+    <title>Digital Innovation Hub | Boutique Agency</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -72,7 +72,7 @@
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             z-index: 1000;
         }
-        #chat-trigger:hover { transform: scale(1.1); background: #fdfdfd; }
+        #chat-trigger:hover { transform: scale(1.1); }
         #chat-trigger svg { stroke: black; stroke-width: 2; fill: none; }
 
         #chat-window {
@@ -103,7 +103,6 @@
         input { 
             flex: 1; border: 1px solid rgba(255,255,255,0.1); padding: 16px; 
             background: rgba(255,255,255,0.04); border-radius: 20px; outline: none; color: white;
-            font-size: 0.95rem;
         }
         
         #send-btn { 
@@ -112,13 +111,10 @@
         }
         #send-btn:hover { background: var(--primary-glow); color: white; }
 
-        .loader { font-size: 0.7rem; color: #666; display: none; margin: 0 0 10px 30px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+        .loader { font-size: 0.7rem; color: #666; display: none; margin: 0 0 10px 30px; font-weight: 600; text-transform: uppercase; }
 
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-
-        #chat-content::-webkit-scrollbar { width: 2px; }
-        #chat-content::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); }
     </style>
 </head>
 <body>
@@ -126,8 +122,8 @@
     <div class="swirl-bg"></div>
 
     <div class="hero">
-        <h1>Figmenta is an independent boutique agency rooted in Italy, powered in UK and globally.</h1>
-        <p>Digital Excellence // Client Concierge</p>
+        <h1>We are an independent boutique agency rooted in Italy, powered in UK and globally.</h1>
+        <p>DIGITAL EXCELLENCE // CLIENT CONCIERGE</p>
     </div>
 
     <div id="chat-trigger" onclick="toggleChat()">
@@ -136,11 +132,11 @@
 
     <div id="chat-window">
         <div class="chat-header">
-            <span style="font-weight: 800; letter-spacing: 1.5px; font-size: 0.8rem; color: #fff;">CONCIERGE</span>
-            <div class="status"><div class="dot"></div> Online</div>
+            <span style="font-weight: 800; letter-spacing: 1.5px; font-size: 0.8rem; color: #fff;">ASSISTANT</span>
+            <div class="status"><div class="dot"></div> ONLINE</div>
         </div>
         <div id="chat-content">
-            <div class="msg bot">Hi there! It’s great to meet you. I’m here to help you learn more about Figmenta and how we can bring your vision to life. What can I assist you with today?</div>
+            <div class="msg bot">Hi there! It’s great to meet you. I’m here to help you learn more about our boutique agency and how we can bring your vision to life. What can I assist you with today?</div>
         </div>
         <div id="loader" class="loader">Writing a response...</div>
         <div class="chat-input">
@@ -150,27 +146,22 @@
     </div>
 
     <script>
-        // URLs
         const CHAT_URL = "https://muneebkhan6.app.n8n.cloud/webhook/213f3e48-d88c-4674-91bf-4eb1e6cf28d2";
         const POLL_URL = "https://muneebkhan6.app.n8n.cloud/webhook/020fa3d1-d00d-4563-9eac-de788fd3cf77";
-        
-        const session_id = "fig_user_" + Math.random().toString(36).substr(2, 9);
-        let lastMessageId = null; // SMART TRACKER to prevent duplicate messages
+        const session_id = "user_" + Math.random().toString(36).substr(2, 9);
+        let lastMessageId = null;
 
         function toggleChat() {
             const win = document.getElementById('chat-window');
             win.style.display = (win.style.display === 'flex') ? 'none' : 'flex';
         }
 
-        // --- PART 1: SEND MESSAGE (Customer to AI/Discord) ---
         async function send() {
             const input = document.getElementById('user-input');
             const content = document.getElementById('chat-content');
             const loader = document.getElementById('loader');
             const text = input.value.trim();
-            
             if(!text) return;
-
             content.innerHTML += `<div class="msg user">${text}</div>`;
             input.value = '';
             content.scrollTop = content.scrollHeight;
@@ -182,23 +173,19 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ session_id, message: text })
                 });
-
                 const data = await res.json();
                 loader.style.display = 'none';
-                
                 if (data.output) {
                     const botMsg = data.output.replace(/\n/g, '<br>');
                     content.innerHTML += `<div class="msg bot">${botMsg}</div>`;
                 }
                 content.scrollTop = content.scrollHeight;
-
             } catch (e) {
                 loader.style.display = 'none';
-                content.innerHTML += `<div class="msg bot">Connecting to server... Please ensure the automation is Active.</div>`;
+                content.innerHTML += `<div class="msg bot">System offline. Please check connection.</div>`;
             }
         }
 
-        // --- PART 2: SMART LISTEN (Discord to Customer) ---
         async function listenForStaff() {
             try {
                 const res = await fetch(POLL_URL, {
@@ -207,31 +194,18 @@
                     body: JSON.stringify({ session_id })
                 });
                 const data = await res.json();
-                
-                // ONLY show if it's a new unique message ID
                 if (data.output && data.message_id !== lastMessageId) {
-                    lastMessageId = data.message_id; // Record the ID so we don't show it again
-                    
+                    lastMessageId = data.message_id;
                     const content = document.getElementById('chat-content');
-                    content.innerHTML += `
-                        <div class="msg bot" style="border-left: 4px solid #6366f1; background: rgba(99, 102, 241, 0.1);">
-                            <small style="color: #6366f1; font-weight: 800; font-size: 0.6rem;">STAFF REPLY</small><br>
-                            ${data.output}
-                        </div>`;
+                    content.innerHTML += `<div class="msg bot" style="border-left: 4px solid #6366f1; background: rgba(99, 102, 241, 0.1);"><small style="color: #6366f1; font-weight: 800; font-size: 0.6rem;">STAFF REPLY</small><br>${data.output}</div>`;
                     content.scrollTop = content.scrollHeight;
                 }
-            } catch (e) {
-                // Polling silently...
-            }
+            } catch (e) {}
         }
 
-        // Check for new Discord messages every 5 seconds
-        setInterval(listenForStaff, 5000);
-
+        setInterval(listenForStaff, 4000);
         document.getElementById('send-btn').addEventListener('click', send);
-        document.getElementById('user-input').addEventListener('keypress', (e) => { 
-            if(e.key === 'Enter') send(); 
-        });
+        document.getElementById('user-input').addEventListener('keypress', (e) => { if(e.key === 'Enter') send(); });
     </script>
 </body>
 </html>
