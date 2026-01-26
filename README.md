@@ -6,6 +6,10 @@
 </video>
 
 
+**[🌐 Live Chat Demo](https://sales-ai-agent-n8n-ajy3.vercel.app/) | [🎥 Video Demonstration](https://github.com/Muneeb20019/Sales-AI-Agent-n8n/releases/download/v1.0.0/anon_20260126_083506.1.1.webm)**
+
+---
+
 **[🌐 Live Chat Demo](https://sales-ai-agent-n8n-ajy3.vercel.app/) | [🎥 Video Demonstration](PASTE_YOUR_VIDEO_LINK_HERE)**
 ## 🎥 Project Demonstration
 <video src="https://github.com/Muneeb20019/Sales-AI-Agent-n8n/raw/main/anon_20260126_083506%20(1).webm" controls="controls" style="max-width: 100%;">
