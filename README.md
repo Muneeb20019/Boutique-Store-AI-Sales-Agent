@@ -1,5 +1,11 @@
 # 🤖 Intelligent Agent Hub: Boutique Concierge Assistant
 
+## 🎥 Project Demonstration
+<video src="https://github.com/Muneeb20019/Sales-AI-Agent-n8n/raw/main/anon_20260126_083506%20(1).webm" controls="controls" style="max-width: 100%;">
+  Your browser does not support the video tag.
+</video>
+
+
 **[🌐 Live Chat Demo](https://sales-ai-agent-n8n-ajy3.vercel.app/) | [🎥 Video Demonstration](PASTE_YOUR_VIDEO_LINK_HERE)**
 ## 🎥 Project Demonstration
 <video src="https://github.com/Muneeb20019/Sales-AI-Agent-n8n/raw/main/anon_20260126_083506%20(1).webm" controls="controls" style="max-width: 100%;">
