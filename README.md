@@ -5,7 +5,6 @@
 ---
 
 <div align="center">
-  <h3>🎥 System Demonstration</h3>
   <video src="https://github.com/Muneeb20019/Sales-AI-Agent-n8n/raw/main/anon_20260126_083506%20(1).webm" width="100%" controls></video>
 </div>
 
@@ -82,6 +81,3 @@ To ensure a "human-centric" experience, I built a universal keyword matching eng
 **Muneeb Ali Khan**
 - **GitHub:** [@Muneeb20019](https://github.com/Muneeb20019)
 - **LinkedIn:** [Muneeb Ali Khan](https://www.linkedin.com/in/muneeb-ali-khan-2a1675365)
-
----
-*✨ This project was developed as a technical trial for the Figmenta Internship Program (2025).*
