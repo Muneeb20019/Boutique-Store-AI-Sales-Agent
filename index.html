@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Boutique Digital Agency | Client Concierge</title>
+    <title>Boutique Agency | AI Innovation Hub</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -25,7 +25,7 @@
             color: white;
         }
 
-        /* The Animated Boutique Swirl */
+        /* Animated Boutique Background */
         .swirl-bg {
             position: absolute;
             top: 50%; left: 50%;
@@ -51,7 +51,7 @@
             animation: fadeIn 2s ease-out;
         }
         .hero h1 { 
-            font-size: 4rem; 
+            font-size: 3.8rem; 
             font-weight: 800; 
             line-height: 1.1;
             letter-spacing: -3px;
@@ -65,7 +65,7 @@
             font-weight: 700;
         }
 
-        /* Floating Chat UI */
+        /* Floating Chat Widget */
         #chat-trigger {
             position: fixed; bottom: 40px; right: 40px; width: 75px; height: 75px;
             background: white; border-radius: 26px; cursor: pointer;
@@ -75,11 +75,10 @@
             z-index: 1000;
         }
         #chat-trigger:hover { transform: scale(1.1); }
-        #chat-trigger svg { stroke: black; stroke-width: 2; fill: none; }
 
         #chat-window {
             position: fixed; bottom: 130px; right: 40px; width: 410px; height: 600px;
-            max-height: 80vh;
+            max-height: 78vh;
             background: var(--glass); backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px);
             border-radius: 35px; border: 1px solid rgba(255, 255, 255, 0.1);
             display: none; flex-direction: column; overflow: hidden;
@@ -100,15 +99,9 @@
         .bot { background: rgba(255,255,255,0.08); color: #fff; align-self: flex-start; border-bottom-left-radius: 4px; }
         .user { background: white; color: black; align-self: flex-end; border-bottom-right-radius: 4px; font-weight: 600; }
 
-        /* --- VISIBLE TYPING LOADER --- */
         .loader { 
-            font-size: 0.8rem; 
-            color: var(--primary-glow); 
-            display: none; 
-            margin: 0 0 15px 30px; 
-            font-weight: 800; 
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            font-size: 0.8rem; color: var(--primary-glow); display: none; 
+            margin: 0 0 15px 30px; font-weight: 800; text-transform: uppercase;
         }
 
         .chat-input { padding: 25px; background: rgba(0,0,0,0.3); display: flex; gap: 12px; }
@@ -137,28 +130,31 @@
     </div>
 
     <div id="chat-trigger" onclick="toggleChat()">
-        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
     </div>
 
     <div id="chat-window">
         <div class="chat-header">
             <span style="font-weight: 800; letter-spacing: 1.5px; font-size: 0.8rem;">ASSISTANT</span>
-            <div class="status"><div class="dot"></div> Online</div>
+            <div class="status"><div class="dot"></div> ONLINE</div>
         </div>
         <div id="chat-content">
-            <div class="msg bot">Hi there! It’s great to meet you. I’m here to help you learn more about our boutique agency and our digital expertise. What can I assist you with today?</div>
+            <div class="msg bot">Hi there! It’s great to meet you. How can I assist you today?</div>
         </div>
         <div id="loader" class="loader">● ● ● Assistant is writing</div>
         <div class="chat-input">
             <input type="text" id="user-input" placeholder="How can we help?">
-            <button id="send-btn">Send</button>
+            <button id="send-btn">SEND</button>
         </div>
     </div>
 
     <script>
-        const CHAT_URL = "https://muneeb987.app.n8n.cloud/webhook/213f3e48-d88c-4674-91bf-4eb1e6cf28d2";
-        const POLL_URL = "https://muneeb987.app.n8n.cloud/webhook/020fa3d1-d00d-4563-9eac-de788fd3cf77";
-        const session_id = "user_" + Math.random().toString(36).substr(2, 9);
+        // --- YOUR PERMANENT NGROK URLs ---
+        const BASE_URL = "https://homostyly-paleontographical-bunny.ngrok-free.dev";
+        const CHAT_URL = `${BASE_URL}/webhook/213f3e48-d88c-4674-91bf-4eb1e6cf28d2`;
+        const POLL_URL = `${BASE_URL}/webhook/020fa3d1-d00d-4563-9eac-de788fd3cf77`;
+        
+        const session_id = "fig_user_" + Math.random().toString(36).substr(2, 9);
         let lastMessageId = null;
 
         function toggleChat() {
@@ -193,7 +189,7 @@
                 content.scrollTop = content.scrollHeight;
             } catch (e) {
                 loader.style.display = 'none';
-                content.innerHTML += `<div class="msg bot">Connection Error. Ensure n8n is Active.</div>`;
+                content.innerHTML += `<div class="msg bot">System offline. Ensure your Ngrok tunnel is active.</div>`;
             }
         }
 
@@ -205,16 +201,24 @@
                     body: JSON.stringify({ session_id: session_id })
                 });
                 const data = await res.json();
+                
+                // Duplicate guard logic
                 if (data.output && data.message_id !== lastMessageId) {
                     lastMessageId = data.message_id;
                     const content = document.getElementById('chat-content');
-                    content.innerHTML += `<div class="msg bot" style="border-left: 4px solid #6366f1; background: rgba(99, 102, 241, 0.1);"><small style="color: #6366f1; font-weight: 800; font-size: 0.6rem;">STAFF REPLY</small><br>${data.output}</div>`;
+                    content.innerHTML += `
+                        <div class="msg bot" style="border-left: 4px solid #6366f1; background: rgba(99, 102, 241, 0.1);">
+                            <small style="color: #6366f1; font-weight: 800; font-size: 0.6rem;">STAFF REPLY</small><br>
+                            ${data.output}
+                        </div>`;
                     content.scrollTop = content.scrollHeight;
                 }
             } catch (e) {}
         }
 
-        setInterval(listenForStaff, 4000);
+        // Check for new staff messages from Discord every 5 seconds
+        setInterval(listenForStaff, 5000);
+
         document.getElementById('send-btn').addEventListener('click', send);
         document.getElementById('user-input').addEventListener('keypress', (e) => { if(e.key === 'Enter') send(); });
     </script>
