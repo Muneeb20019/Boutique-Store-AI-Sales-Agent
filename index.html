@@ -150,9 +150,10 @@
     </div>
 
     <script>
-        // --- NEW WORKSPACE URLs ---
-        const CHAT_URL = "https://muneeb987.app.n8n.cloud/webhook/213f3e48-d88c-4674-91bf-4eb1e6cf28d2";
-        const POLL_URL = "https://muneeb987.app.n8n.cloud/webhook/020fa3d1-d00d-4563-9eac-de788fd3cf77";
+        // --- NEW TUNNEL URLs ---
+        const TUNNEL_BASE = "https://ece74af191042c.lhr.life";
+        const CHAT_URL = `${TUNNEL_BASE}/webhook/213f3e48-d88c-4674-91bf-4eb1e6cf28d2`;
+        const POLL_URL = `${TUNNEL_BASE}/webhook/020fa3d1-d00d-4563-9eac-de788fd3cf77`;
         
         const session_id = "fig_user_" + Math.random().toString(36).substr(2, 9);
         let lastMessageId = null;
