@@ -3,120 +3,128 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Boutique Agency | Intelligent Hub</title>
+    <title>Boutique Digital Agency | Client Concierge</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary-glow: #6366f1; 
             --accent: #ff3b30; 
             --dark-bg: #000000;
-            --glass: rgba(15, 15, 15, 0.85);
+            --glass: rgba(15, 15, 15, 0.9);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
 
         body {
             background-color: var(--dark-bg);
-            min-height: 100vh;
+            height: 100vh;
             display: flex;
-            flex-direction: column;
             align-items: center;
+            justify-content: center;
+            overflow: hidden;
             color: white;
-            overflow-x: hidden;
-            padding-bottom: 50px;
         }
 
+        /* The Animated Boutique Swirl */
         .swirl-bg {
-            position: fixed;
+            position: absolute;
             top: 50%; left: 50%;
             transform: translate(-50%, -50%);
             width: 800px; height: 800px;
             background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%);
             filter: blur(120px);
-            opacity: 0.25;
-            z-index: -1;
+            opacity: 0.3;
+            z-index: 0;
+            animation: moveSwirl 15s infinite alternate;
+        }
+
+        @keyframes moveSwirl {
+            from { transform: translate(-55%, -45%) scale(1); }
+            to { transform: translate(-45%, -55%) scale(1.1); }
         }
 
         .hero { 
             text-align: center; 
             z-index: 1; 
             max-width: 900px; 
-            padding: 60px 20px 30px 20px;
+            padding: 0 40px;
+            animation: fadeIn 2s ease-out;
         }
         .hero h1 { 
-            font-size: 3.2rem; 
+            font-size: 4rem; 
             font-weight: 800; 
             line-height: 1.1;
-            letter-spacing: -2px;
-            margin-bottom: 20px;
+            letter-spacing: -3px;
+            margin-bottom: 25px;
         }
-
-        /* --- VIDEO PLAYER FIX --- */
-        .video-container {
-            width: 90%;
-            max-width: 750px;
-            border-radius: 25px;
-            overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.1);
-            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
-            background: #0a0a0a;
-            margin-bottom: 40px;
-            z-index: 1;
+        .hero p { 
+            color: #999; 
+            font-size: 1rem; 
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-weight: 700;
         }
-        video { width: 100%; display: block; background: black; }
 
         /* Floating Chat UI */
         #chat-trigger {
-            position: fixed; bottom: 30px; right: 30px; width: 70px; height: 70px;
-            background: white; border-radius: 24px; cursor: pointer;
+            position: fixed; bottom: 40px; right: 40px; width: 75px; height: 75px;
+            background: white; border-radius: 26px; cursor: pointer;
             display: flex; align-items: center; justify-content: center; 
             box-shadow: 0 15px 45px rgba(99, 102, 241, 0.2);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             z-index: 1000;
         }
+        #chat-trigger:hover { transform: scale(1.1); }
+        #chat-trigger svg { stroke: black; stroke-width: 2; fill: none; }
 
         #chat-window {
-            position: fixed; bottom: 110px; right: 30px; width: 380px; height: 550px;
-            max-height: 70vh;
+            position: fixed; bottom: 130px; right: 40px; width: 410px; height: 600px;
+            max-height: 80vh;
             background: var(--glass); backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px);
-            border-radius: 30px; border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 35px; border: 1px solid rgba(255, 255, 255, 0.1);
             display: none; flex-direction: column; overflow: hidden;
             box-shadow: 0 30px 100px rgba(0,0,0,0.9);
             z-index: 1000;
+            animation: slideUp 0.5s ease-out;
         }
 
         .chat-header { 
-            padding: 20px 25px; background: rgba(255, 255, 255, 0.05); 
+            padding: 25px 30px; background: rgba(255, 255, 255, 0.03); 
             display: flex; justify-content: space-between; align-items: center;
         }
         .status { display: flex; align-items: center; gap: 8px; font-size: 0.7rem; font-weight: 800; color: #34c759; }
-        .dot { width: 8px; height: 8px; background: #34c759; border-radius: 50%; }
+        .dot { width: 8px; height: 8px; background: #34c759; border-radius: 50%; box-shadow: 0 0 10px #34c759; }
 
-        #chat-content { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; }
-        .msg { padding: 14px 18px; border-radius: 20px; font-size: 0.9rem; line-height: 1.5; max-width: 85%; }
-        .bot { background: rgba(255,255,255,0.1); color: #fff; align-self: flex-start; border-bottom-left-radius: 4px; }
+        #chat-content { flex: 1; padding: 25px; overflow-y: auto; display: flex; flex-direction: column; gap: 18px; }
+        .msg { padding: 16px 22px; border-radius: 24px; font-size: 0.95rem; line-height: 1.5; max-width: 88%; }
+        .bot { background: rgba(255,255,255,0.08); color: #fff; align-self: flex-start; border-bottom-left-radius: 4px; }
         .user { background: white; color: black; align-self: flex-end; border-bottom-right-radius: 4px; font-weight: 600; }
 
-        /* --- LOADER FIX (VISIBLE) --- */
+        /* --- VISIBLE TYPING LOADER --- */
         .loader { 
             font-size: 0.8rem; 
-            color: #ffffff; 
+            color: var(--primary-glow); 
             display: none; 
-            margin: 0 0 10px 25px; 
-            font-weight: 600; 
-            font-style: italic;
-            letter-spacing: 0.5px;
+            margin: 0 0 15px 30px; 
+            font-weight: 800; 
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        .chat-input { padding: 20px; background: rgba(0,0,0,0.4); display: flex; gap: 10px; }
+        .chat-input { padding: 25px; background: rgba(0,0,0,0.3); display: flex; gap: 12px; }
         input { 
-            flex: 1; border: 1px solid rgba(255,255,255,0.1); padding: 14px; 
-            background: rgba(255,255,255,0.05); border-radius: 15px; outline: none; color: white;
+            flex: 1; border: 1px solid rgba(255,255,255,0.1); padding: 16px; 
+            background: rgba(255,255,255,0.05); border-radius: 20px; outline: none; color: white;
+            font-size: 0.95rem;
         }
         
         #send-btn { 
-            background: white; color: black; border: none; padding: 0 20px; 
-            border-radius: 15px; cursor: pointer; font-weight: 800; text-transform: uppercase; font-size: 0.7rem;
+            background: white; color: black; border: none; padding: 0 25px; 
+            border-radius: 20px; cursor: pointer; font-weight: 800;
         }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
@@ -125,31 +133,22 @@
 
     <div class="hero">
         <h1>An independent boutique agency rooted in Italy, powered in UK and globally.</h1>
-        <p style="color: #999; letter-spacing: 2px; font-weight: 700; text-transform: uppercase; font-size: 0.7rem;">Digital Excellence // Client Concierge</p>
-    </div>
-
-    <!-- Video Demonstration -->
-    <div class="video-container">
-        <video controls>
-            <source src="https://github.com/Muneeb20019/Sales-AI-Agent-n8n/raw/main/anon_20260126_083506%20(1).webm" type="video/webm">
-            Your browser does not support the video tag.
-        </video>
+        <p>Digital Excellence // Client Concierge</p>
     </div>
 
     <div id="chat-trigger" onclick="toggleChat()">
-        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
     </div>
 
     <div id="chat-window">
         <div class="chat-header">
-            <span style="font-weight: 800; letter-spacing: 1.5px; font-size: 0.7rem; color: #fff;">ASSISTANT</span>
+            <span style="font-weight: 800; letter-spacing: 1.5px; font-size: 0.8rem;">ASSISTANT</span>
             <div class="status"><div class="dot"></div> Online</div>
         </div>
         <div id="chat-content">
-            <div class="msg bot">Hi there! It’s great to meet you. I’m here to help you learn more about our boutique agency. How can I assist you today?</div>
+            <div class="msg bot">Hi there! It’s great to meet you. I’m here to help you learn more about our boutique agency and our digital expertise. What can I assist you with today?</div>
         </div>
-        <!-- Loader is now White and clearly visible -->
-        <div id="loader" class="loader">Assistant is writing...</div>
+        <div id="loader" class="loader">● ● ● Assistant is writing</div>
         <div class="chat-input">
             <input type="text" id="user-input" placeholder="How can we help?">
             <button id="send-btn">Send</button>
@@ -157,8 +156,8 @@
     </div>
 
     <script>
-        const CHAT_URL = "https://muneebkhan6.app.n8n.cloud/webhook/213f3e48-d88c-4674-91bf-4eb1e6cf28d2";
-        const POLL_URL = "https://muneebkhan6.app.n8n.cloud/webhook/020fa3d1-d00d-4563-9eac-de788fd3cf77";
+        const CHAT_URL = "https://muneeb987.app.n8n.cloud/webhook/213f3e48-d88c-4674-91bf-4eb1e6cf28d2";
+        const POLL_URL = "https://muneeb987.app.n8n.cloud/webhook/020fa3d1-d00d-4563-9eac-de788fd3cf77";
         const session_id = "user_" + Math.random().toString(36).substr(2, 9);
         let lastMessageId = null;
 
@@ -177,8 +176,6 @@
             content.innerHTML += `<div class="msg user">${text}</div>`;
             input.value = '';
             content.scrollTop = content.scrollHeight;
-            
-            // SHOW THE LOADER
             loader.style.display = 'block';
 
             try {
@@ -188,10 +185,7 @@
                     body: JSON.stringify({ session_id, message: text })
                 });
                 const data = await res.json();
-                
-                // HIDE THE LOADER
                 loader.style.display = 'none';
-
                 if (data.output) {
                     const botMsg = data.output.replace(/\n/g, '<br>');
                     content.innerHTML += `<div class="msg bot">${botMsg}</div>`;
@@ -199,7 +193,7 @@
                 content.scrollTop = content.scrollHeight;
             } catch (e) {
                 loader.style.display = 'none';
-                content.innerHTML += `<div class="msg bot">System offline. Ensure n8n is Active.</div>`;
+                content.innerHTML += `<div class="msg bot">Connection Error. Ensure n8n is Active.</div>`;
             }
         }
 
