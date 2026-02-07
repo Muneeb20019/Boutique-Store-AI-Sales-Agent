@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Figmenta | Boutique Digital Agency</title>
+    <title>Boutique Agency | Intelligent Hub</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -23,10 +23,9 @@
             align-items: center;
             color: white;
             overflow-x: hidden;
-            padding-bottom: 100px;
+            padding-bottom: 50px;
         }
 
-        /* Animated Boutique Swirl */
         .swirl-bg {
             position: fixed;
             top: 50%; left: 50%;
@@ -36,91 +35,88 @@
             filter: blur(120px);
             opacity: 0.25;
             z-index: -1;
-            animation: moveSwirl 12s infinite alternate;
-        }
-
-        @keyframes moveSwirl {
-            from { transform: translate(-55%, -45%) scale(1); }
-            to { transform: translate(-45%, -55%) scale(1.1); }
         }
 
         .hero { 
             text-align: center; 
             z-index: 1; 
             max-width: 900px; 
-            padding: 80px 20px 40px 20px;
+            padding: 60px 20px 30px 20px;
         }
         .hero h1 { 
-            font-size: 3.5rem; 
+            font-size: 3.2rem; 
             font-weight: 800; 
             line-height: 1.1;
             letter-spacing: -2px;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
 
-        /* Video Section */
+        /* --- VIDEO PLAYER FIX --- */
         .video-container {
             width: 90%;
-            max-width: 800px;
-            border-radius: 30px;
+            max-width: 750px;
+            border-radius: 25px;
             overflow: hidden;
             border: 1px solid rgba(255,255,255,0.1);
             box-shadow: 0 30px 60px rgba(0,0,0,0.5);
             background: #0a0a0a;
-            margin-bottom: 50px;
+            margin-bottom: 40px;
             z-index: 1;
         }
-        video { width: 100%; display: block; }
+        video { width: 100%; display: block; background: black; }
 
         /* Floating Chat UI */
         #chat-trigger {
-            position: fixed; bottom: 40px; right: 40px; width: 75px; height: 75px;
-            background: white; border-radius: 26px; cursor: pointer;
+            position: fixed; bottom: 30px; right: 30px; width: 70px; height: 70px;
+            background: white; border-radius: 24px; cursor: pointer;
             display: flex; align-items: center; justify-content: center; 
             box-shadow: 0 15px 45px rgba(99, 102, 241, 0.2);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             z-index: 1000;
         }
-        #chat-trigger:hover { transform: scale(1.1); }
-        #chat-trigger svg { stroke: black; stroke-width: 2; fill: none; }
 
         #chat-window {
-            position: fixed; bottom: 130px; right: 40px; width: 410px; height: 580px;
-            max-height: 75vh;
+            position: fixed; bottom: 110px; right: 30px; width: 380px; height: 550px;
+            max-height: 70vh;
             background: var(--glass); backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px);
-            border-radius: 35px; border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 30px; border: 1px solid rgba(255, 255, 255, 0.1);
             display: none; flex-direction: column; overflow: hidden;
             box-shadow: 0 30px 100px rgba(0,0,0,0.9);
             z-index: 1000;
         }
 
         .chat-header { 
-            padding: 25px 30px; background: rgba(255, 255, 255, 0.02); 
+            padding: 20px 25px; background: rgba(255, 255, 255, 0.05); 
             display: flex; justify-content: space-between; align-items: center;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
         }
         .status { display: flex; align-items: center; gap: 8px; font-size: 0.7rem; font-weight: 800; color: #34c759; }
-        .dot { width: 8px; height: 8px; background: #34c759; border-radius: 50%; box-shadow: 0 0 10px #34c759; }
+        .dot { width: 8px; height: 8px; background: #34c759; border-radius: 50%; }
 
-        #chat-content { flex: 1; padding: 25px; overflow-y: auto; display: flex; flex-direction: column; gap: 18px; }
-        .msg { padding: 16px 22px; border-radius: 24px; font-size: 0.95rem; line-height: 1.5; max-width: 88%; }
-        .bot { background: rgba(255,255,255,0.08); color: #e0e0e0; align-self: flex-start; border-bottom-left-radius: 4px; }
+        #chat-content { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; }
+        .msg { padding: 14px 18px; border-radius: 20px; font-size: 0.9rem; line-height: 1.5; max-width: 85%; }
+        .bot { background: rgba(255,255,255,0.1); color: #fff; align-self: flex-start; border-bottom-left-radius: 4px; }
         .user { background: white; color: black; align-self: flex-end; border-bottom-right-radius: 4px; font-weight: 600; }
 
-        .chat-input { padding: 25px; background: rgba(255,255,255,0.01); display: flex; gap: 12px; }
+        /* --- LOADER FIX (VISIBLE) --- */
+        .loader { 
+            font-size: 0.8rem; 
+            color: #ffffff; 
+            display: none; 
+            margin: 0 0 10px 25px; 
+            font-weight: 600; 
+            font-style: italic;
+            letter-spacing: 0.5px;
+        }
+
+        .chat-input { padding: 20px; background: rgba(0,0,0,0.4); display: flex; gap: 10px; }
         input { 
-            flex: 1; border: 1px solid rgba(255,255,255,0.1); padding: 16px; 
-            background: rgba(255,255,255,0.04); border-radius: 20px; outline: none; color: white;
+            flex: 1; border: 1px solid rgba(255,255,255,0.1); padding: 14px; 
+            background: rgba(255,255,255,0.05); border-radius: 15px; outline: none; color: white;
         }
         
         #send-btn { 
-            background: white; color: black; border: none; padding: 0 25px; 
-            border-radius: 20px; cursor: pointer; font-weight: 800; text-transform: uppercase; font-size: 0.75rem;
+            background: white; color: black; border: none; padding: 0 20px; 
+            border-radius: 15px; cursor: pointer; font-weight: 800; text-transform: uppercase; font-size: 0.7rem;
         }
-        #send-btn:hover { background: var(--primary-glow); color: white; }
-
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
@@ -128,29 +124,32 @@
     <div class="swirl-bg"></div>
 
     <div class="hero">
-        <h1>Figmenta is an independent boutique agency rooted in Italy, powered in UK and globally.</h1>
-        <p style="color: #999; letter-spacing: 2px; font-weight: 700; text-transform: uppercase; font-size: 0.8rem; margin-top: 15px;">Digital Excellence // Client Concierge</p>
+        <h1>An independent boutique agency rooted in Italy, powered in UK and globally.</h1>
+        <p style="color: #999; letter-spacing: 2px; font-weight: 700; text-transform: uppercase; font-size: 0.7rem;">Digital Excellence // Client Concierge</p>
     </div>
 
-    <!-- System Video Demo -->
+    <!-- Video Demonstration -->
     <div class="video-container">
         <video controls>
             <source src="https://github.com/Muneeb20019/Sales-AI-Agent-n8n/raw/main/anon_20260126_083506%20(1).webm" type="video/webm">
+            Your browser does not support the video tag.
         </video>
     </div>
 
     <div id="chat-trigger" onclick="toggleChat()">
-        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
     </div>
 
     <div id="chat-window">
         <div class="chat-header">
-            <span style="font-weight: 800; letter-spacing: 1.5px; font-size: 0.8rem; color: #fff;">ASSISTANT</span>
+            <span style="font-weight: 800; letter-spacing: 1.5px; font-size: 0.7rem; color: #fff;">ASSISTANT</span>
             <div class="status"><div class="dot"></div> Online</div>
         </div>
         <div id="chat-content">
-            <div class="msg bot">Hi there! It’s great to meet you. I’m here to help you learn more about Figmenta and how we can bring your vision to life. What can I assist you with today?</div>
+            <div class="msg bot">Hi there! It’s great to meet you. I’m here to help you learn more about our boutique agency. How can I assist you today?</div>
         </div>
+        <!-- Loader is now White and clearly visible -->
+        <div id="loader" class="loader">Assistant is writing...</div>
         <div class="chat-input">
             <input type="text" id="user-input" placeholder="How can we help?">
             <button id="send-btn">Send</button>
@@ -158,12 +157,9 @@
     </div>
 
     <script>
-        // --- UPDATED TUNNEL URLs ---
-        const TUNNEL_BASE = "https://5a7c38505503f5.lhr.life"; 
-        const CHAT_URL = `${TUNNEL_BASE}/webhook/213f3e48-d88c-4674-91bf-4eb1e6cf28d2`;
-        const POLL_URL = `${TUNNEL_BASE}/webhook/020fa3d1-d00d-4563-9eac-de788fd3cf77`;
-        
-        const session_id = "fig_muneeb_" + Math.random().toString(36).substr(2, 9);
+        const CHAT_URL = "https://muneebkhan6.app.n8n.cloud/webhook/213f3e48-d88c-4674-91bf-4eb1e6cf28d2";
+        const POLL_URL = "https://muneebkhan6.app.n8n.cloud/webhook/020fa3d1-d00d-4563-9eac-de788fd3cf77";
+        const session_id = "user_" + Math.random().toString(36).substr(2, 9);
         let lastMessageId = null;
 
         function toggleChat() {
@@ -174,12 +170,16 @@
         async function send() {
             const input = document.getElementById('user-input');
             const content = document.getElementById('chat-content');
+            const loader = document.getElementById('loader');
             const text = input.value.trim();
             if(!text) return;
 
             content.innerHTML += `<div class="msg user">${text}</div>`;
             input.value = '';
             content.scrollTop = content.scrollHeight;
+            
+            // SHOW THE LOADER
+            loader.style.display = 'block';
 
             try {
                 const res = await fetch(CHAT_URL, {
@@ -188,12 +188,17 @@
                     body: JSON.stringify({ session_id, message: text })
                 });
                 const data = await res.json();
+                
+                // HIDE THE LOADER
+                loader.style.display = 'none';
+
                 if (data.output) {
                     const botMsg = data.output.replace(/\n/g, '<br>');
                     content.innerHTML += `<div class="msg bot">${botMsg}</div>`;
                 }
                 content.scrollTop = content.scrollHeight;
             } catch (e) {
+                loader.style.display = 'none';
                 content.innerHTML += `<div class="msg bot">System offline. Ensure n8n is Active.</div>`;
             }
         }
@@ -203,25 +208,19 @@
                 const res = await fetch(POLL_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ session_id })
+                    body: JSON.stringify({ session_id: session_id })
                 });
                 const data = await res.json();
-                
-                // Smart ID check to prevent duplicates
                 if (data.output && data.message_id !== lastMessageId) {
                     lastMessageId = data.message_id;
                     const content = document.getElementById('chat-content');
-                    content.innerHTML += `
-                        <div class="msg bot" style="border-left: 4px solid #6366f1; background: rgba(99, 102, 241, 0.1);">
-                            <small style="color: #6366f1; font-weight: 800; font-size: 0.6rem;">STAFF REPLY</small><br>
-                            ${data.output}
-                        </div>`;
+                    content.innerHTML += `<div class="msg bot" style="border-left: 4px solid #6366f1; background: rgba(99, 102, 241, 0.1);"><small style="color: #6366f1; font-weight: 800; font-size: 0.6rem;">STAFF REPLY</small><br>${data.output}</div>`;
                     content.scrollTop = content.scrollHeight;
                 }
             } catch (e) {}
         }
 
-        setInterval(listenForStaff, 5000);
+        setInterval(listenForStaff, 4000);
         document.getElementById('send-btn').addEventListener('click', send);
         document.getElementById('user-input').addEventListener('keypress', (e) => { if(e.key === 'Enter') send(); });
     </script>
